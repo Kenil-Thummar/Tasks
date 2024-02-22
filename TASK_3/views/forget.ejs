@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forget Password</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            /* Light background color */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #ffffff;
+            /* White background color */
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            color: #343a40;
+            /* Dark text color */
+            transition: box-shadow 0.3s ease-in-out;
+            /* Added box shadow transition */
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .container:hover {
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+            /* Box shadow on hover */
+        }
+
+        h2 {
+            color: #007bff;
+            /* Blue heading color */
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            border: 1px solid #ced4da;
+            /* Light border color */
+            border-radius: 4px;
+            font-size: 16px;
+            background-color: #f1f3f5;
+            /* Light background color for input */
+            color: #495057;
+            /* Dark text color */
+            transition: background-color 0.3s, border-color 0.3s;
+            /* Added transition */
+            opacity: 0;
+            animation: fadeInInput 0.5s ease-in-out forwards;
+        }
+
+        input:hover,
+        input:focus {
+            background-color: #e9ecef;
+            /* Lighter background color on hover/focus */
+            border-color: #6c757d;
+            /* Darker border color on hover/focus */
+        }
+
+        input:nth-child(1) {
+            animation-delay: 0.2s;
+        }
+
+        input:nth-child(2) {
+            animation-delay: 0.4s;
+        }
+
+        /* ... add more input styles with animation-delay as needed ... */
+
+        button {
+            background-color: #28a745;
+            /* Green button color */
+            color: #ffffff;
+            /* White text color */
+            border: none;
+            padding: 12px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.3s ease-in-out;
+            /* Added transition for button */
+        }
+
+        button:hover {
+            background-color: #218838;
+            /* Darker green hover color */
+            transform: scale(1.05);
+            /* Bounce effect on hover */
+            animation: pulse 0.5s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInInput {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Shake animation for the container on submission */
+
+        .container.shake {
+            animation: shake 0.5s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Forget Password</h2>
+        <form action="/forget" method="post">
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <button type="submit">Reset Password</button>
+        </form>
+    </div>
+</body>
+
+</html>
