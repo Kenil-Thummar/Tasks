@@ -31,13 +31,20 @@ const db = new pg.Client({
     port: process.env.PG_PORT,
 });
 
+db.connect();
+
+const handleError = (res, error, message = 'Internal Server Error') => {
+    console.error('Error:', error);
+    res.status(500).send(message);
+};
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, "./public/images");
+        cb(null, __dirname + "/public/images");
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -63,7 +70,6 @@ app.get("/addUser", (req, res) => {
 app.post("/register", upload.single('profileImage'), async (req, res) => {
     try {
         // Destructuring request body
-        console.log(req.body);
         const { firstName, middleName, lastName, dob, mobileNumber, email, password } = req.body;
 
         // Hashing password with bcrypt
@@ -71,7 +77,7 @@ app.post("/register", upload.single('profileImage'), async (req, res) => {
 
         // Checking if the user already exists in the database
         const checkResult = await db.query("SELECT * FROM users WHERE email=$1", [email]);
-        console.log(checkResult);
+
         if (checkResult.rows.length > 0) {
             // Redirecting to login page with an alert if the user already exists
             return res.redirect('/login?alert=user already exists');
@@ -79,7 +85,7 @@ app.post("/register", upload.single('profileImage'), async (req, res) => {
             // Inserting user data into the database
             await db.query("INSERT INTO users (firstname, middlename, lastname, dob, mobilenumber, email, password, profileimage) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);",
                 [firstName, middleName, lastName, dob, mobileNumber, email, hashPassword, req.file.filename]);
-            console.log("this is working");
+
             // Rendering the login page on successful registration
             return res.render("login.ejs");
         }
@@ -88,9 +94,6 @@ app.post("/register", upload.single('profileImage'), async (req, res) => {
         return (res, err, 'Error during user registration');
     }
 });
-
-// Function to handle errors and send a response
-
 
 app.get("/login", (req, res) => {
     const alertMessage = req.query.alert;
